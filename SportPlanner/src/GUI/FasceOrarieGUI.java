@@ -30,8 +30,6 @@ private SportPlanner sportPlanner;
 private static ArrayList<LocalTime>  fasce = new ArrayList<>();
 private static ArrayList<String> orari = new ArrayList<>();
 private JButton butt1, butt2;
-//private String[][] data= {{"12:00"},{"14:00"}, {"16:00"},{"18:00"}, {"20:00"}, {"22:00"}};
-
 private int[] rows;
     /**
      * Creates new form NewJFrame
@@ -48,9 +46,8 @@ private int[] rows;
         pack();
         if(orari.size()!=0) orari.removeAll(orari);
         Iterator ora = sportPlanner.getFasce().iterator();
-        while(ora.hasNext()){
+        while(ora.hasNext())
             orari.add(ora.next().toString());
-        }
         String[] col = {"Fascia oraria"};
         checkOrario();
         String[][] data = new String[orari.size()][1] ;
@@ -211,7 +208,7 @@ private int[] rows;
         // TODO add your handling code here:
         butt2.setEnabled(true);
         if(!fasce.isEmpty())
-        sportPlanner.getTorneoCorrente().setOrario(fasce);
+            sportPlanner.getTorneoCorrente().setOrario(fasce);
         setVisible(false);
         butt1.setEnabled(false);
     }//GEN-LAST:event_confirmActionPerformed
@@ -236,8 +233,8 @@ private int[] rows;
         String mm = ora.split(reg)[1];
         LocalTime time = LocalTime.of(Integer.parseInt(hh), Integer.parseInt(mm));
         if(sportPlanner.getTorneoCorrente().getOrario()==null && !fasce.contains(time)){
-           fasce.add(time);    
-           return time; 
+            fasce.add(time);    
+            return time; 
         } 
         return null;
     }
@@ -262,8 +259,7 @@ private int[] rows;
                 LocalDate inizioC = sportPlanner.getTorneoCorrente().getDataInizio();
                 LocalDate fineC = sportPlanner.getTorneoCorrente().getDataFine();
                 if(sportPlanner.getElencoTornei().get(aux).getCampi().containsKey(paux)
-                &&   checkData(inizioC, sportPlanner.getElencoTornei().get(aux).getDataInizio(), fineC, sportPlanner.getElencoTornei().get(aux).getDataFine())){
-                    
+                && checkData(inizioC, sportPlanner.getElencoTornei().get(aux).getDataInizio(), fineC, sportPlanner.getElencoTornei().get(aux).getDataFine())){
                     Iterator o = sportPlanner.getElencoTornei().get(aux).getOrario().iterator();
                     while(o.hasNext()){
                         String app = o.next().toString();
@@ -274,29 +270,27 @@ private int[] rows;
                 }
             }
         }
-           it = sportPlanner.getElencoPrenotazioni().keySet().iterator();
-            while(it.hasNext()){
-                aux=(String) it.next();
-                Iterator iter = sportPlanner.getTorneoCorrente().getCampi().keySet().iterator();
-                while(iter.hasNext()){
-                    LocalDate inizioC = sportPlanner.getTorneoCorrente().getDataInizio();
+        it = sportPlanner.getElencoPrenotazioni().keySet().iterator();
+         while(it.hasNext()){
+            aux=(String) it.next();
+            Iterator iter = sportPlanner.getTorneoCorrente().getCampi().keySet().iterator();
+            while(iter.hasNext()){
+                LocalDate inizioC = sportPlanner.getTorneoCorrente().getDataInizio();
                 LocalDate fineC = sportPlanner.getTorneoCorrente().getDataFine();
                 LocalDate data = sportPlanner.getElencoPrenotazioni().get(aux).getData();
-                    if((data.isAfter(inizioC) && data.isBefore(fineC)) || data.equals(inizioC) || data.equals(fineC))
-                        if(orari.contains(sportPlanner.getElencoPrenotazioni().get(aux).getOra()))
-                            orari.remove(sportPlanner.getElencoPrenotazioni().get(aux).getOra());
-                        }
-            }
-            
-            
-        
+                if((data.isAfter(inizioC) && data.isBefore(fineC)) || data.equals(inizioC) || data.equals(fineC))
+                if(orari.contains(sportPlanner.getElencoPrenotazioni().get(aux).getOra()))
+                    orari.remove(sportPlanner.getElencoPrenotazioni().get(aux).getOra());
+                }
+        }
     }
     
     
     public boolean checkData(LocalDate inizioCorrente, LocalDate inizio, LocalDate fineCorrente, LocalDate fine){
-      if((inizioCorrente.isBefore(inizio) && (fineCorrente.isAfter(inizio) || fineCorrente.equals(inizio)))
-         || (inizioCorrente.isAfter(inizio) || inizioCorrente.equals(inizio)) && (inizioCorrente.isBefore(fine) || inizioCorrente.equals(fine)))
-          return true;
+        if((inizioCorrente.isBefore(inizio) && (fineCorrente.isAfter(inizio) || fineCorrente.equals(inizio)))
+        || (inizioCorrente.isAfter(inizio) || inizioCorrente.equals(inizio)) && (inizioCorrente.isBefore(fine) 
+        || inizioCorrente.equals(fine)))
+            return true;
         return false;
     }
     /**

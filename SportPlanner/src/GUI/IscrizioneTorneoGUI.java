@@ -6,6 +6,7 @@
 package GUI;
 
 import SportPlanner.SportPlanner;
+import SportPlanner.Torneo;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Locale;
@@ -55,6 +56,7 @@ public class IscrizioneTorneoGUI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,10 +101,17 @@ public class IscrizioneTorneoGUI extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Conferma");
+        jButton1.setText("Conferma iscrizione");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Torna al menu");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -129,8 +138,10 @@ public class IscrizioneTorneoGUI extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addComponent(jScrollPane2)
             .addGroup(layout.createSequentialGroup()
-                .addGap(161, 161, 161)
+                .addGap(81, 81, 81)
                 .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -147,8 +158,10 @@ public class IscrizioneTorneoGUI extends javax.swing.JFrame {
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -160,19 +173,14 @@ public class IscrizioneTorneoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(jTextField1.getText().length()!=0 && jTextField2.getText().length()!=0){
-            try {
-            sportPlanner.gestisciIscrizione(jTextField1.getText(), jTextField2.getText(), username);
-            jButton1.setEnabled(true);
+        try {
+            String codice = sportPlanner.gestisciIscrizione(jTextField1.getText(), jTextField2.getText(), username);
+            jTextArea1.setVisible(true);
+            jTextArea1.setText("Il tuo codice di iscrizione è: " + codice);
         } catch (Exception ex) {
             jTextArea1.setVisible(true);
-          
             jTextArea1.setText(ex.getMessage());
         }
-                
-        }
-        new SelectOperationGUI(sportPlanner, username);
-        setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusLost
@@ -184,30 +192,42 @@ public class IscrizioneTorneoGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2MouseExited
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        new SelectOperationGUI(sportPlanner, username);
+        setVisible(false);
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
         private void initTable() {
         int i=0, j;
-        String[][] tornei = new String[sportPlanner.getElencoTornei().size()][4];
-        String[] col = {"ID", "Descrizione", "Data inizio", "Data fine"};
+        String[][] tornei = new String[sportPlanner.getElencoTornei().size()][5];
+        String[] col = {"ID", "Descrizione", "Prezzo", "Data inizio", "Data fine"};
         Iterator it = sportPlanner.getElencoTornei().keySet().iterator();
         String app;
+        Torneo t;
         while(it.hasNext()){
             app=(String) it.next();
-            for(j=0;j<4;j++){
+            t = sportPlanner.getElencoTornei().get(app);
+            for(j=0;j<5;j++){
                 switch (j) {
                     case 0:
                         tornei[i][j]=app;
                         break;
                     case 1:
-                        tornei[i][j]=sportPlanner.getElencoTornei().get(app).getDescrizione();
+                        tornei[i][j]=t.getDescrizione();
                         break;
                     case 2:
-                        tornei[i][j]=sportPlanner.getElencoTornei().get(app).getDataInizio().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                        tornei[i][j]=String.valueOf(t.getPrezzoIscrizione());
+                        break;
+                    case 3:
+                        tornei[i][j]=t.getDataInizio().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
                         break;
                     default:
-                        tornei[i][j]=sportPlanner.getElencoTornei().get(app).getDataFine().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                        tornei[i][j]=t.getDataFine().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
                         break;
                 }
             }
@@ -221,6 +241,7 @@ public class IscrizioneTorneoGUI extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

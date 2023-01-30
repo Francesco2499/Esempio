@@ -347,7 +347,7 @@ public class PrenotaCampoGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             sportPlanner.confermaPrenotazione();
-            new PrenotaCampoGUI(sportPlanner, username);
+            new SelectOperationGUI(sportPlanner, username);
             setVisible(false);
             
         } catch (Exception ex) {

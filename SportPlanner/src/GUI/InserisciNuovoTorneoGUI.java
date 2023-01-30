@@ -108,6 +108,7 @@ public class InserisciNuovoTorneoGUI extends javax.swing.JFrame {
             }
         });
 
+        giorno.setForeground(new java.awt.Color(164, 164, 164));
         giorno.setText("Giorno");
         giorno.setToolTipText("");
         giorno.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -119,6 +120,7 @@ public class InserisciNuovoTorneoGUI extends javax.swing.JFrame {
             }
         });
 
+        mese.setForeground(new java.awt.Color(164, 164, 164));
         mese.setText("Mese");
         mese.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -129,6 +131,7 @@ public class InserisciNuovoTorneoGUI extends javax.swing.JFrame {
             }
         });
 
+        anno.setForeground(new java.awt.Color(164, 164, 164));
         anno.setText("Anno");
         anno.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -139,6 +142,7 @@ public class InserisciNuovoTorneoGUI extends javax.swing.JFrame {
             }
         });
 
+        giorno1.setForeground(new java.awt.Color(164, 164, 164));
         giorno1.setText("Giorno");
         giorno1.setToolTipText("");
         giorno1.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -150,6 +154,7 @@ public class InserisciNuovoTorneoGUI extends javax.swing.JFrame {
             }
         });
 
+        mese1.setForeground(new java.awt.Color(164, 164, 164));
         mese1.setText("Mese");
         mese1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -160,6 +165,7 @@ public class InserisciNuovoTorneoGUI extends javax.swing.JFrame {
             }
         });
 
+        anno1.setForeground(new java.awt.Color(164, 164, 164));
         anno1.setText("Anno");
         anno1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -296,19 +302,35 @@ public class InserisciNuovoTorneoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_IdTorneoActionPerformed
 
     private void inserisciTorneoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserisciTorneoActionPerformed
-        try {
-            // TODO add your handling code here:
-            LocalDate dataIn=LocalDate.of(Integer.parseInt(anno.getText()), Integer.parseInt(mese.getText()), Integer.parseInt(giorno.getText()));
-            LocalDate dataFi=LocalDate.of(Integer.parseInt(anno1.getText()), Integer.parseInt(mese1.getText()), Integer.parseInt(giorno1.getText()));
-            sportPlanner.inserisciNuovoTorneo(jTextField1.getText(), IdTorneo.getText(),dataIn, dataFi, Integer.parseInt(numPartecipanti.getSelectedItem().toString()),Integer.parseInt(prezzo.getText()));
-            inserisciTorneo.setEnabled(false);
-            scegliCampi.setEnabled(true);
-        } catch (Exception ex) {
+        if(prezzo.getText().length()!=0 && anno.getText().length()!=0 && anno1.getText().length()!=0 
+        && mese.getText().length()!=0 && mese1.getText().length()!=0 && giorno.getText().length()!=0
+        && giorno1.getText().length()!=0){
+            try {
+                // TODO add your handling code here:
+                LocalDate dataIn=LocalDate.of(Integer.parseInt(anno.getText()), Integer.parseInt(mese.getText()), Integer.parseInt(giorno.getText()));
+                LocalDate dataFi=LocalDate.of(Integer.parseInt(anno1.getText()), Integer.parseInt(mese1.getText()), Integer.parseInt(giorno1.getText()));
+                sportPlanner.inserisciNuovoTorneo(jTextField1.getText(), IdTorneo.getText(),dataIn, dataFi, Integer.parseInt(numPartecipanti.getSelectedItem().toString()),Integer.parseInt(prezzo.getText()));
+                inserisciTorneo.setEnabled(false);
+                scegliCampi.setEnabled(true);
+                jLabel5.setVisible(false);
+            }
+            catch(NumberFormatException ex){
+                jLabel5.setForeground(Color.red);
+                jLabel5.setVisible(true);    
+                jLabel5.setText("Inserisci correttamente le date!");  
+            }
+            catch (Exception ex) {
+                jLabel5.setForeground(Color.red);
+                jLabel5.setVisible(true);    
+                jLabel5.setText(ex.getMessage());
+            }
+        }
+        else{
             jLabel5.setForeground(Color.red);
             jLabel5.setVisible(true);    
-            jLabel5.setText(ex.getMessage());
+            jLabel5.setText("Compilare tutti i campi!");
         }
-        
+            
     }//GEN-LAST:event_inserisciTorneoActionPerformed
 
     private void numPartecipantiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numPartecipantiActionPerformed

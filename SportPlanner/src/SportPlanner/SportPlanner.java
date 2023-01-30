@@ -185,7 +185,7 @@ public class SportPlanner {
        Campo c =campi.get(identificativoCampo);
        if(c!=null){
             do{
-                  codicePrenotazione=generaCodice();
+                codicePrenotazione=generaCodice();
             }while(elencoPrenotazioni.get(codicePrenotazione)!=null);
             prenotazioneCorrente = new Prenotazione(codicePrenotazione, elencoClienti.get(username), data,c);
             return prenotazioneCorrente.getImporto();
@@ -282,9 +282,8 @@ public class SportPlanner {
     }
     
     public void loadClienti() {
-                Credenziali cr1 = new Credenziali("mario123", "12345678");
+        Credenziali cr1 = new Credenziali("mario123", "12345678");
         Credenziali cr2 = new Credenziali("luigi456", "00112233");
-
         Cliente cln1 = new Cliente("Mario", "Rossi", "3335566777", "mario.rossi@unict.it", cr1);
         Cliente cln2 = new Cliente("Luigi", "Verdi", "3394455678", "luigi.verdi@unict.it", cr2);
         this.elencoClienti.put(cln1.getCredenziali().getUsername(), cln1);
@@ -352,20 +351,7 @@ public class SportPlanner {
             }
         }
         return total;
-    }
-    /*
-    public void loadTornei() throws Exception {
-        inserisciNuovoTorneo("1",LocalDate.of(11,11,2022, Month.MARCH, 0), 15, 30, 30);
-        selezionaAmbientazione("2");
-        confermaInserimento();
-
-        inserisciNuovaPartita("2", 12, 9, 2022, 18, 30, 60);
-        selezionaAmbientazione("4");
-        confermaInserimento();
-
-        System.out.println("Caricamento Partite Completato");
-    }*/
-    
+    }   
 
     public float calcolaImporto() {
         if (prenotazioneCorrente != null) {
@@ -413,7 +399,9 @@ public class SportPlanner {
         if (cognome.length() < 3) {
             throw new Exception("Inserire un cognome valido");
         }
-        if (telefono.length() < 9) {
+        Pattern tel = Pattern.compile("[0-9]{10}$");
+        Matcher matcherTel = tel.matcher(telefono);
+        if (!matcherTel.find()) {
             throw new Exception("Inserire un telefono valido");
         }
         Pattern p = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$");
