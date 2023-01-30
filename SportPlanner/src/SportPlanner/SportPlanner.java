@@ -295,10 +295,10 @@ public class SportPlanner {
     private void loadTornei() {
         LocalDate in = LocalDate.of(2023, 3, 1);
         LocalDate in1 = LocalDate.of(2023, 2, 10);
-        LocalDate in2 = LocalDate.of(2023, 2, 1);
+        LocalDate in2 = LocalDate.of(2023, 3, 12);
         LocalDate fi = LocalDate.of(2023, 3, 10);
         LocalDate fi1 = LocalDate.of(2023, 2, 22);        
-        LocalDate fi2 = LocalDate.of(2023, 2, 18);
+        LocalDate fi2 = LocalDate.of(2023, 3, 18);
         ArrayList<LocalTime> orario = new ArrayList<>();
         ArrayList<LocalTime> orario1 = new ArrayList<>();
         ArrayList<LocalTime> orario2 = new ArrayList<>();
